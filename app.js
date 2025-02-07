@@ -7,7 +7,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-
 // Import DB Connection
 
 var indexRouter = require('./routes/index');
@@ -16,7 +15,7 @@ var tasksRouter = require('./routes/tasks');
 var userTaskRouter = require('./routes/userTask');
 
 // Create Express App
-var app = express(); 
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,11 +41,12 @@ app.use('/tasks', tasksRouter);
 app.use('/user-task', userTaskRouter);
 
 // Handle Error
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// error 
+// error handler
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -59,7 +59,7 @@ app.use(function(req, res, next) {
 // Set port
 const port = process.env.APP_PORT || 4000;
 
-console.log(process.env.APP_PORT)
+console.log(process.env.APP_PORT);
 
 // Start server
 app.listen(port, () => {
