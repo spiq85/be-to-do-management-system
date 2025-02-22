@@ -6,7 +6,11 @@ const prisma = new PrismaClient();
 // Get All Users Task
 router.get('/get-all', async function (_req, res) {
   const userTasks = await prisma.userTask.findMany();
-  res.send(userTasks);
+  if (userTasks.length === 0 || userTasks === null || userTasks === undefined) {
+    res.status(404).json('No User Tasks Found');
+  } else {
+    res.send(userTasks);
+  }
 });
 
 // Get User Task by ID
@@ -20,7 +24,13 @@ router.get('/get-user-task/:user_id/:task_id', async function (req, res) {
       },
     },
   });
-  res.send(userTask);
+  if (userTask === null || userTask === undefined) {
+    res.json(
+      `User Task with user_id ${user_id} and task_id ${task_id} not found`
+    );
+  } else {
+    res.send(userTask);
+  }
 });
 
 // Create User Task
@@ -32,7 +42,11 @@ router.post('/create', async function (req, res) {
       task_id: parseInt(task_id),
     },
   });
-  res.send(userTask);
+  if (userTask === null || userTask === undefined) {
+    res.status(404).json('User Task not created');
+  } else {
+    res.send(userTask);
+  }
 });
 
 // Update User Task

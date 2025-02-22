@@ -4,7 +4,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // Get All Tasks
-router.get('/get-all', async function (_req, res) {
+router.get('/get-all', async function (req, res) {
   const tasks = await prisma.task.findMany();
   res.send(tasks);
 });

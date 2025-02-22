@@ -41,10 +41,10 @@ router.post('/create', async function (req, res) {
         ? res.status(400).json('Please fill password field')
         : async () => {
             if (name === '' || email === '' || password === '') {
-              res.json('Please fill all fields');
+              res.status(400).json('Please fill all fields');
             } else {
               const hashPassword = await bcrypt.hash(password, 10);
-              const stringPassword = await stringify(hashPassword);
+              const stringPassword = stringify(hashPassword);
               const user = await prisma.user.create({
                 data: {
                   username: name,
@@ -92,7 +92,6 @@ router.delete('/delete/:id', async function (req, res) {
       id: parseInt(id),
     },
   });
-
   if (!userExist) {
     res.status(404).json('User not found');
   } else {
